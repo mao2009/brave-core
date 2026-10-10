@@ -52,3 +52,26 @@ until the remaining audit is completed.
 
 Run `python3 minimal-browser/test_preset.py` from the repository root.
 This checks configuration invariants, **not** build or network behavior.
+
+## Upstream maintenance architecture
+
+**Rule: keep upstream mergeable, but keep unnecessary features out of the
+resulting binary.** Source presence is not the same as compiled inclusion.
+
+- Keep `master` a close upstream-tracking branch. Maintain product changes on
+  separate branches and periodically rebase or merge them after upstream sync.
+  Avoid destructive source-tree deletions and large mechanical rewrites.
+- Prefer upstream supported GN build switches and conditional target dependencies.
+  Where upstream lacks switches, add minimal isolated guards/stubs, rather than
+  commenting out source at dozens of call sites.
+- Prove feature removal with the generated GN dependency graph, linkage /
+  symbols, runtime UI checks, and network tracing. An argument set to `false`
+  alone is **not** proof of absence.
+- Limit behavioral changes to product-specific integration seams; keep security
+  patches, Chromium updates, certificates, DRM compatibility where permitted,
+  and adblock filter updates distinct from analytics.
+- Any upstream integration must rerun build, tests, and outbound-network audit
+  before the fork can be released. Treat reintroduced optional features or
+  telemetry paths as a regression.
+- Keep site session/cookie persistence, while removing built-in credential
+  storage and account synchronization in later audited steps.
