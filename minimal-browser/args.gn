@@ -1,0 +1,16 @@
+# Minimal privacy-focused desktop build preset (experimental).
+# Apply as Chromium out/<directory>/args.gn after pnpm run init.
+# This is not yet a telemetry-free distribution; see README.md.
+is_debug = false
+is_component_build = false
+is_official_build = false
+is_brave_origin_branded = true
+
+# Disable optional product features at compile time.
+enable_brave_rewards = false
+enable_brave_wallet = false
+enable_ai_chat = false
+enable_brave_vpn_v1 = false
+enable_brave_vpn_v2 = false
+
+# Do not disable Brave Shields / adblock-rust.
